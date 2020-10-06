@@ -14,6 +14,10 @@ func NewClient() *Client {
 	return &Client{}
 }
 
+type Response struct {
+	Results json.RawMessage `json:"results"`
+}
+
 // Cities sends request to the `/cities` endpoint and return list of cities in the country
 func (c *Client) Cities(country string, v interface{}) error {
 	res, err := http.Get(fmt.Sprintf("https://api.openaq.org/v1/cities?country=%s", country))
@@ -27,7 +31,13 @@ func (c *Client) Cities(country string, v interface{}) error {
 		return fmt.Errorf("body data corrupted, err %v", err)
 	}
 
-	err = json.Unmarshal(body, v)
+	var result Response
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return fmt.Errorf("unmarshal failed, err %v", err)
+	}
+
+	err = json.Unmarshal(result.Results, v)
 	if err != nil {
 		return fmt.Errorf("unmarshal failed, err %v", err)
 	}
