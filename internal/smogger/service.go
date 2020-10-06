@@ -1,9 +1,13 @@
 package smogger
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 type ApiClient interface {
 	Cities(country string, v interface{}) error
+	Measurements(city string, dateFrom, dateTo time.Time, v interface{}) error
 }
 
 type Service struct {

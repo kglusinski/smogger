@@ -9,6 +9,8 @@ import (
 	"smogger/internal/smogger"
 )
 
+const dateRegex string = "(?:[12]\\d{3}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01]))"
+
 var s *smogger.Service
 
 func main() {
@@ -25,7 +27,12 @@ func handle() {
 	sRouter := router.PathPrefix("/v1").Subrouter()
 
 	sRouter.HandleFunc("/", whoami)
-	sRouter.HandleFunc("/cities", getCities).Methods("GET").Queries("country", "{[A-Z]}")
+	sRouter.HandleFunc("/cities", getCities).
+		Methods("GET").
+		Queries("country", "{[A-Z]}")
+	sRouter.HandleFunc("/measurements", getMeasurements).
+		Methods("GET").
+		Queries("city", "{[A-Z]}", "date_from", "{date_from:"+dateRegex+"}", "date_to", "{date_to:"+dateRegex+"}")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
@@ -69,4 +76,8 @@ func getCities(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	_, _ = w.Write(resp)
+}
+
+func getMeasurements(w http.ResponseWriter, r *http.Request) {
+
 }

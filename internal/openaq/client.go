@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 // Client is a http client for https://api.openaq.org
@@ -42,5 +43,9 @@ func (c *Client) Cities(country string, v interface{}) error {
 		return fmt.Errorf("unmarshal failed, err %v", err)
 	}
 
+	return nil
+}
+
+func (c *Client) Measurements(city string, dateFrom, dateTo time.Time, v interface{}) error {
 	return nil
 }
