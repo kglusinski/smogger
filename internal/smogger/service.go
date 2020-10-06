@@ -30,3 +30,14 @@ func (s *Service) GetCities(country string) ([]City, error) {
 
 	return cities, err
 }
+
+func (s *Service) GetMeasurements(city string, dateFrom, dateTo time.Time) ([]Measurement, error) {
+	var measurements []Measurement
+
+	err := s.client.Measurements(city, dateFrom, dateTo, &measurements)
+	if err != nil {
+		return []Measurement{}, fmt.Errorf("couldn't get measurements from provider, err: %v", err)
+	}
+
+	return measurements, err
+}
