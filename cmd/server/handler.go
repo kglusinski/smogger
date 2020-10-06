@@ -13,7 +13,7 @@ type ErrResponse struct {
 
 func whoami(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	_, _  = w.Write([]byte(`{"name": "Smogger v1"}`))
+	_, _ = w.Write([]byte(`{"name": "Smogger v1"}`))
 }
 
 func getCities(w http.ResponseWriter, r *http.Request) {
