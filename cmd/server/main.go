@@ -4,10 +4,17 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"smogger/internal/openaq"
+	"smogger/internal/smogger"
 )
+
+var s *smogger.Service
 
 func main() {
 	log.Println("Starting server - Smogger v1.0 by Kamil Głusiński")
+
+	c := openaq.NewClient()
+	s = smogger.NewService(c)
 
 	handle()
 }
