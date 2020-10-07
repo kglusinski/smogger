@@ -2,6 +2,8 @@
 
 Smogger is simple small application for air pollution data visualisation.
 
+Smogger is build with Golang and React
+
 ## prerequisite
 - installed npm
 - installed docker
