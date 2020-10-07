@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  smogger-api:
+    container_name: smogger_api
+    environment:
+      - API_PORT=${API_PORT}
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - ${API_PORT}:${API_PORT}
+    restart: on-failure
+    volumes:
+      - app:/usr/src/app
+
+  smogger-app:
+    container_name: smogger_app
+    environment:
+      - APP_PORT=${APP_PORT}
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    restart: on-failure
+    volumes:
+      - app:/usr/src/app
+    depends_on:
+      - smogger-api
+volumes:
+  app:

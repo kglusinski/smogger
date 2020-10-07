@@ -17,6 +17,7 @@ type spaHandler struct {
 
 // implementation got from https://github.com/gorilla/mux#serving-single-page-applications
 func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	log.Printf("request came to the server, req: %v", *r)
 	path, err := filepath.Abs(r.URL.Path)
 
 	if err != nil {
@@ -38,29 +39,31 @@ func (h spaHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Print("serving")
-
+	log.Printf("got access to %s", h.staticPath)
 	http.FileServer(http.Dir(h.staticPath)).ServeHTTP(w, r)
 }
 
 func main() {
+	port := os.Getenv("APP_PORT")
+	log.Println("Starting frontend server - Smogger v1.0 by Kamil Głusiński")
 	router := mux.NewRouter()
 
 	path, _ := os.Getwd()
 
 	h := spaHandler{
-		staticPath: fmt.Sprintf("%s/frontend/dist", path),
+		staticPath: fmt.Sprintf("%s/static", path),
 		indexPath:  "index.html",
 	}
 
 	router.PathPrefix("/").Handler(h)
 
 	server := &http.Server{
-		Addr:              "127.0.0.1:8181",
+		Addr:              ":" + port,
 		Handler:           router,
 		ReadTimeout:       15 * time.Second,
 		WriteTimeout:      15 * time.Second,
 	}
 
+	log.Printf("Listening on %s port", port)
 	log.Fatal(server.ListenAndServe())
 }
