@@ -31,7 +31,7 @@ func (c *Client) Cities(country string, v interface{}) error {
 
 // Measurements sends request to the `/measurements` endpoint and returns list of measurements in the city
 func (c *Client) Measurements(city string, dateFrom, dateTo time.Time, v interface{}) error {
-	res, err := http.Get(fmt.Sprintf("https://api.openaq.org/v1/measurements?city=%s&date_from=%s&date_to=%s", city, dateFrom.Format(DateISO), dateTo.Format(DateISO)))
+	res, err := http.Get(fmt.Sprintf("https://api.openaq.org/v1/measurements?city=%s&date_from=%s&date_to=%s&parameter=pm25", city, dateFrom.Format(DateISO), dateTo.Format(DateISO)))
 	if err != nil {
 		return fmt.Errorf("http request failed, err %v", err)
 	}
