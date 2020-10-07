@@ -22,7 +22,7 @@ install-frontend:
 
 .PHONY: build-frontend
 build-frontend: install-frontend
-	(cd ./frontend && npm run-script build)
+	(cd ./frontend && npm run build)
 
 .PHONY: start
 start: build-frontend run-backend

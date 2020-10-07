@@ -17,6 +17,6 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=build /app/bin/app .
 COPY --from=build /app/.env .
-COPY --from=build /app/frontend/dist static
+COPY --from=build /app/frontend/build static
 
 CMD ["./app"]
