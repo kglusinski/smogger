@@ -33,7 +33,7 @@ export default function Chart() {
 
         const res = await axios.get(`http://localhost:8080/v1/measurements?city=${selectedCity}&date_from=2020-01-01&date_to=2020-03-01`)
 
-        if (res.data.length < 0 ) {
+        if (res.data.length <= 0 ) {
             return
         }
 
@@ -45,11 +45,13 @@ export default function Chart() {
 
         }
 
+        console.log(data)
+
         setChartData({
             labels: dates,
             datasets: [
                 {
-                    label: `Zanieczyszczenie PM2.5 dla miasta ${selectedCity} [${res.data[0].unit}]`,
+                    label: `Zanieczyszczenie PM2.5 dla miasta ${selectedCity} [µg/m³]`,
                     data: data,
                     borderWidth: 4
                 }
